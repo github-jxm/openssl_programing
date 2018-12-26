@@ -2,7 +2,7 @@
 #include <openssl/rsa.h> 
 int main()
 {
-	int ret,ekl[2],npubk,inl,outl,total=0,total2=0; 
+	int ret, ekl[2], npubk, inl, outl, total=0, total2=0; 
 	unsigned long e=RSA_3;
 	char *ek[2],iv[8],in[100],out[500],de[500]; 
 
