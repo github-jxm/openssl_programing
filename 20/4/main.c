@@ -87,10 +87,12 @@ int main()
 	printf("size %d \n",size); 
 	for(i=0;i<20;i++)
 		memset(&digest[i],i+1,1);
+
 	signature=malloc(size);
 	ERR_load_crypto_strings();
 	berr=BIO_new(BIO_s_file());
 	BIO_set_fp(berr,stdout,BIO_NOCLOSE);
+
 	/* 签名数据，本例未做摘要，可将 digest 中的数据看作是 sha1 摘要结果 */ 
 	ret=ECDSA_sign(0,digest,20,signature,&sig_len,key1);
 	if(ret!=1) {
@@ -126,5 +128,4 @@ int main()
 	free(signature); 
 	free(curves);
 	return 0;
-
 }

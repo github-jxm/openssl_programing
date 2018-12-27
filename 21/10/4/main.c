@@ -30,6 +30,7 @@ int main()
 	ek[1]=malloc(500);
 	//ret=EVP_SealInit(&ctx,type,ek,ekl,iv,pubkey,1); 
 	ret=EVP_SealInit(ctx,type,ek,ekl,iv,pubkey,1); 
+
 	/* 只有一个公钥*/ 
 	if(ret!=1) goto err;
 	strcpy(in,"openssl 编程");
