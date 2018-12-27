@@ -1,0 +1,11 @@
+*.[oa]
+*.so
+*.swp
+*.bak
+*.log
+CMakeCache.txt
+CMakeFiles/
+Makefile
+cmake_install.cmake
+config.h
+demo
