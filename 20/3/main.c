@@ -29,9 +29,10 @@ int main()
 	for (n=0;n<crv_len;n++) {
 		nid = curves[n].nid; 
 		group=NULL;
-		printf("[%zd] nid = %d comment=%s \n", n , curves[n].nid,curves[n].comment);
+		printf("[%zd] nid = %d comment=%s \n", 
+				n , curves[n].nid,curves[n].comment);
 		group = EC_GROUP_new_by_curve_name(nid);
-		ret=EC_GROUP_check(group,NULL); 
+		ret=EC_GROUP_check(group,NULL); /*检查椭圆曲线，成功返回 1*/ 
 	}
 	OPENSSL_free(curves);
 
