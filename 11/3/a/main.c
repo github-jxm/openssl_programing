@@ -10,10 +10,10 @@ int main()
 	a=BN_new(); 
 	//BN_zero(a); 
 	//BN_one(a); 
-	//BN_one(a); 
 	//BN_set_word(a,16);
 	//BN_set_word(a,256);
 	w=2685550010; 
+	//w=0x2685550010; 
 	ret=BN_add_word(a,w); 
 	if(ret!=1) {
 		printf("a+=w err!\n"); 
@@ -29,7 +29,6 @@ int main()
 	BIO_printf(bio_out, "-------------------\n");
 	BN_print(bio_out, a);
 	BIO_printf(bio_out, "\n-------------------\n");
-
 
         int bits = BN_num_bits(a);
 	BIO_printf(bio_out, "bits = %d \n" ,bits);
