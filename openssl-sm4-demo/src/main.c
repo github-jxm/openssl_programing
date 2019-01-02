@@ -9,6 +9,7 @@
 /* Before OpenSSL 1.1.1-pre1, we did not have EVP_sm4_ecb() */
 #if defined(OPENSSL_VERSION_NUMBER) \
 	&& OPENSSL_VERSION_NUMBER < 0x10101001L
+
 static const EVP_CIPHER *(*EVP_sm4_ecb)()=EVP_aes_128_ecb;
 #endif
 
@@ -30,7 +31,13 @@ void test_encrypt_with_cipher(const test_case_t *in, const EVP_CIPHER *cipher)
 	EVP_CIPHER_CTX *ctx;
 
 	ctx = EVP_CIPHER_CTX_new();
+
+	/* 1. 加密初始化函数，
+	      本函数调用具体算法的 init 回调函数，
+	      将外送密钥 key 转换为内部密钥形式，
+	      将初始化向量 iv 拷贝到 ctx 结构中。 */
 	EVP_EncryptInit_ex(ctx, cipher, NULL, in->in_key, in->in_ivec);
+
 
 	if (in->in_data_is_already_padded) {
 		/* Check whether the input data is already padded.
@@ -39,6 +46,7 @@ void test_encrypt_with_cipher(const test_case_t *in, const EVP_CIPHER *cipher)
 		if (in->in_data_len % bs != 0) {
 			printf("ERROR-1: data length=%d which is not added yet; block size=%d\n", 
 					(int) in->in_data_len, (int) bs);
+
 			/* Warning: Remember to do some clean-ups */
 			EVP_CIPHER_CTX_free(ctx);
 			return;
@@ -49,24 +57,28 @@ void test_encrypt_with_cipher(const test_case_t *in, const EVP_CIPHER *cipher)
 
 	out_buf = (unsigned char *) malloc(((in->in_data_len>>4)+1) << 4);
 	out_len = 0;
+
+	/* 2. 加密函数，用于多次计算，它调用了具体算法的 do_cipher 回调函数。*/
 	EVP_EncryptUpdate(ctx, out_buf, &out_len, in->in_data, in->in_data_len);
 	if (1){
 		printf("Debug: out_len=%d\n", out_len);
 	}
 
 	out_padding_len = 0;
+
+	/* 3. 获取加密结果，函数可能涉及填充，它调用了具体算法的 do_cipher 回调函数。*/
 	EVP_EncryptFinal_ex(ctx, out_buf+out_len, &out_padding_len);
 	if (1) {
 		printf("Debug: out_padding_len=%d\n", out_padding_len);
 	}
 
 	EVP_CIPHER_CTX_free(ctx);
+
 	if (1) {
 		int i;
 		int len;
 		len = out_len + out_padding_len;
-		for (i=0; i<len; i++)
-		{
+		for (i=0; i<len; i++) {
 			printf("%02x ", out_buf[i]);
 		}
 		printf("\n");
@@ -82,14 +94,12 @@ void main()
 {
 	int have_sm4 = (OPENSSL_VERSION_NUMBER >= 0x10101001L);
 	int have_aes = 1;
-	const unsigned char data[]=
-	{
+	const unsigned char data[]= {
 		0x01, 0x23, 0x45, 0x67, 0x89, 0xab, 0xcd, 0xef,
 		0xfe, 0xdc, 0xba, 0x98, 0x76, 0x54, 0x32, 0x10,
 	};
 	unsigned char ivec[EVP_MAX_IV_LENGTH]; ///< IV 向量
-	const unsigned char key1[16] =        ///< key_data, 密钥内容, 至少16字节
-	{
+	const unsigned char key1[16] = {       ///< key_data, 密钥内容, 至少16字节
 		0x01, 0x23, 0x45, 0x67, 0x89, 0xab, 0xcd, 0xef,
 		0xfe, 0xdc, 0xba, 0x98, 0x76, 0x54, 0x32, 0x10,
 	};
