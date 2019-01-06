@@ -1,4 +1,5 @@
 #include <openssl/ec.h> 
+#include <openssl/evp.h>  //include NID_sm2 
 
 /*
   https://www.openssl.org/docs/man1.1.0/crypto/EC_GROUP_new.html
@@ -34,6 +35,14 @@ int main()
 		group = EC_GROUP_new_by_curve_name(nid);
 		ret=EC_GROUP_check(group,NULL); /*检查椭圆曲线，成功返回 1*/ 
 	}
+
+
+	group = EC_GROUP_new_by_curve_name(NID_sm2);
+	ret=EC_GROUP_check(group,NULL); /*检查椭圆曲线，成功返回 1*/ 
+	if ( ret == 1){
+		printf("\nEC_GROUP_checks seccess : NID_sm2 \n\n");
+	}
+
 	OPENSSL_free(curves);
 
 
