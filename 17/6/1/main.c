@@ -19,7 +19,8 @@ int main()
 		return -1;
 	} 
 
-	printf("-------------\n");
+	printf("\n-------------\n");
+
 	RSA_print_fp(stdout,r,11);
 	RSA_free(r); 
 	return 0;
