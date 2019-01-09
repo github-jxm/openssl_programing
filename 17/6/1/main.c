@@ -6,7 +6,7 @@ int main()
 	unsigned long e=RSA_3; 
 
 	BIGNUM *bne;
-	r=RSA_generate_key(bits,e,NULL,NULL); 
+	r=RSA_generate_key(bits,e,NULL,NULL);  //不推荐使用 
 	RSA_print_fp(stdout,r,11);
 	RSA_free(r);
 	
