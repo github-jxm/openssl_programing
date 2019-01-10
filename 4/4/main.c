@@ -1,8 +1,6 @@
 #include <string.h>
 #include <openssl/lhash.h>
 
-
-
 typedef struct Student_st
 {
 	char name[20];
@@ -37,6 +35,7 @@ static void PrintValue_arg(Student *a,int *b)
 
 
 DEFINE_LHASH_OF(Student);
+
 IMPLEMENT_LHASH_DOALL_ARG(Student, int);
 
 int  main()
@@ -47,7 +46,8 @@ int  main()
 		 s3 = {"skp",24,"student"},
 		 s4 = {"zhao_zcp",28,"zcp's name"},
 		 *s5;
-	void *data;
+
+	Student *data;
 
  	LHASH_OF(Student) *h =  lh_Student_new(NULL,Student_cmp);
 	if(h == NULL) {
