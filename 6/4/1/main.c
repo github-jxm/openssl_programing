@@ -20,12 +20,12 @@ int main()
 	       	return 1;
 	}
 	
-	f1=DSO_bind_func(d,"BIO_new");
-	f2=DSO_bind_func(d,"BIO_free");
-	BIO_newx=(BIO *(*)(BIO_METHOD *))f1;
-	BIO_freex=(BIO *(*)(BIO_METHOD *))f2;
+	f1 = DSO_bind_func(d,"BIO_new");
+	f2 = DSO_bind_func(d,"BIO_free");
+	BIO_newx = (BIO *(*)(BIO_METHOD *))f1;
+	BIO_freex = (BIO *(*)(BIO_METHOD *))f2;
 
-	test=BIO_newx(BIO_s_file());
+	test = BIO_newx(BIO_s_file());
 	BIO_set_fp(test,stdout,BIO_NOCLOSE);
 	BIO_puts(test,"abd\n\n");
 	BIO_freex(test);
