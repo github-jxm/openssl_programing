@@ -84,8 +84,9 @@ int    main()
 	return 0;
 }
 
-       /*
-	* 本示例只对第一列做了哈希。
-	* 需要注意的是，added数组及其元素申请空间时尽量采用OPENSSL_malloc而不是malloc，
-	* 且其申请的空间由TXT_DB_free(调用OPENSSL_free)释放           
-	*/
+/*
+* 本示例只对第一列做了哈希。
+* 需要注意的是，added数组及其元素申请空间时尽量采用OPENSSL_malloc而不是malloc，
+* 且其申请的空间由TXT_DB_free(调用OPENSSL_free)释放           
+*/
+
